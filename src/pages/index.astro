@@ -1,11 +1,110 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import StickyNav from "../components/StickyNav.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import Services from "../components/Services.astro";
+import Footer from "../components/Footer.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const links = [
+  { href: "/work", label: "Work" },
+  { href: "/couples", label: "Couples" },
+  { href: "/weddings", label: "Weddings" },
+  { href: "/about", label: "About" },
+];
 ---
 
 <Layout>
-	<Welcome />
+  <StickyNav />
+
+  <div
+    id="mobileMenu"
+    class="fixed inset-0 z-200 bg-[#F8F6F2] flex flex-col justify-center items-center gap-8
+           translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
+           md:hidden"
+    inert
+  >
+    <button
+      id="closeMenuBtn"
+      aria-label="Cerrar menú"
+      class="absolute top-4 right-6 flex flex-col justify-center gap-1.25 w-8 h-8 bg-transparent border-none cursor-pointer p-0"
+    >
+      <span class="block h-px w-6 bg-[#1F1F1F] rotate-45 translate-y-0.75"
+      ></span>
+      <span class="block h-px w-6 bg-[#1F1F1F] -rotate-45 -translate-y-0.75"
+      ></span>
+    </button>
+
+    <div
+      class="font-serif text-xl font-light tracking-wider text-[#1F1F1F] mb-2"
+    >
+      Earthbound <em class="italic text-[#B59A7A]">Visuals</em>
+    </div>
+
+    {
+      links.map(({ href, label }) => (
+        <a
+          href={href}
+          class="menu-link text-[11px] tracking-[0.24em] uppercase text-[#6E6E6E] font-light hover:text-[#1F1F1F] transition-colors"
+        >
+          {label}
+        </a>
+      ))
+    }
+
+    <a
+      href="/contact"
+      class="menu-link mt-2 text-[11px] tracking-[0.2em] uppercase text-[#B59A7A] font-normal border-b border-[#B59A7A] pb-px"
+    >
+      Contact
+    </a>
+  </div>
+
+  <Hero />
+
+  <main class="bg-[#F8F6F2]">
+    <About />
+    <Services />
+  </main>
+
+  <Footer />
 </Layout>
+
+<script>
+  const hero = document.getElementById("hero");
+  const nav = document.getElementById("stickyNav");
+
+  if (hero && nav) {
+    new IntersectionObserver(
+      ([entry]) => nav.classList.toggle("is-visible", !entry.isIntersecting),
+      { threshold: 0.05 },
+    ).observe(hero);
+  }
+
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuBtn = document.getElementById("menuBtn");
+  const heroMenuBtn = document.getElementById("heroMenuBtn"); nav
+  const closeMenuBtn = document.getElementById("closeMenuBtn");
+
+  function openMenu() {
+    mobileMenu?.removeAttribute("inert");
+    mobileMenu?.classList.remove("translate-x-full");
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => closeMenuBtn?.focus());
+  }
+
+  function closeMenu() {
+    mobileMenu?.classList.add("translate-x-full");
+    document.body.style.overflow = "";
+    menuBtn?.focus();
+    setTimeout(() => mobileMenu?.setAttribute("inert", ""), 500);
+  }
+
+  menuBtn?.addEventListener("click", openMenu);
+  heroMenuBtn?.addEventListener("click", openMenu);
+  closeMenuBtn?.addEventListener("click", closeMenu);
+
+  document.querySelectorAll(".menu-link").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+</script>

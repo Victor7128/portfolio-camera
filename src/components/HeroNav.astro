@@ -1,0 +1,89 @@
+---
+const links = [
+  { href: "/work",     label: "Work"     },
+  { href: "/couples",  label: "Couples"  },
+  { href: "/weddings", label: "Weddings" },
+  { href: "/about",    label: "About"    },
+];
+---
+
+<div class="absolute top-0 left-0 right-0 flex items-center justify-between px-6 md:px-12 h-13 z-10">
+  <div class="font-serif text-base font-light tracking-wider text-white/90">
+    Earthbound <em class="italic text-[#FFD9B0]">Visuals</em>
+  </div>
+
+  <ul class="hidden md:flex gap-9 list-none">
+    {links.map(({ href, label }) => (
+      <li>
+        <a
+          href={href}
+          class="text-[10px] tracking-[0.18em] uppercase text-white/60 font-light
+                 hover:text-white transition-colors"
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <a
+    href="/contact"
+    class="hidden md:inline-block text-[10px] tracking-[0.16em] uppercase text-[#FFD9B0]
+           font-normal border-b border-[#FFD9B0]/50 pb-px"
+  >
+    Contact
+  </a>
+
+  <button
+    id="heroMenuBtn"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="mobileMenu"
+    class="md:hidden flex flex-col justify-center gap-1.25 w-8 h-8 cursor-pointer bg-transparent border-none p-0"
+  >
+    <span class="block h-px w-6 bg-white/80 transition-all duration-300 origin-center"></span>
+    <span class="block h-px w-6 bg-white/80 transition-all duration-300 origin-center"></span>
+    <span class="block h-px w-4 bg-white/80 transition-all duration-300 origin-center"></span>
+  </button>
+</div>
+
+<script>
+  const heroBtn    = document.getElementById("heroMenuBtn")    as HTMLButtonElement | null;
+  const menuBtn    = document.getElementById("menuBtn")        as HTMLButtonElement | null;
+  const mobileMenu = document.getElementById("mobileMenu")     as HTMLElement | null;
+  const closeBtn   = document.getElementById("closeMenuBtn")   as HTMLButtonElement | null;
+
+  function openMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.removeAttribute("inert");
+    mobileMenu.removeAttribute("aria-hidden");
+
+    mobileMenu.classList.add("is-open");
+    menuBtn?.classList.add("is-open");
+
+    heroBtn?.setAttribute("aria-expanded", "true");
+    menuBtn?.setAttribute("aria-expanded", "true");
+
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => closeBtn?.focus());
+  }
+
+  function closeMenu() {
+    if (!mobileMenu) return;
+
+    mobileMenu.classList.remove("is-open");
+    menuBtn?.classList.remove("is-open");
+
+    heroBtn?.setAttribute("aria-expanded", "false");
+    menuBtn?.setAttribute("aria-expanded", "false");
+
+    document.body.style.overflow = "";
+    const duration = 500;
+    setTimeout(() => {
+      mobileMenu.setAttribute("inert", "");
+    }, duration);
+    heroBtn?.focus();
+  }
+
+  heroBtn?.addEventListener("click", openMenu);
+</script>

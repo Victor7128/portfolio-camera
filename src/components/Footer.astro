@@ -1,0 +1,46 @@
+---
+interface SocialLink {
+  href:  string;
+  label: string;
+}
+
+interface Props {
+  copyright?: string;
+  socials?:   SocialLink[];
+}
+
+const {
+  copyright = "© 2026 Earthbound Visuals",
+  socials   = [
+    { href: "https://instagram.com", label: "Instagram" },
+    { href: "https://pinterest.com", label: "Pinterest" },
+  ],
+} = Astro.props;
+---
+
+<footer class="flex flex-col items-center gap-4 py-8 px-6
+               md:flex-row md:justify-between md:px-12 md:py-6
+               border-t border-[#B59A7A]/20 bg-[#F8F6F2]">
+
+  <div class="font-serif text-[15px] font-light tracking-wide text-[#1F1F1F]">
+    Earthbound <em class="italic text-[#B59A7A]">Visuals</em>
+  </div>
+
+  <span class="text-[11px] text-[#6E6E6E] tracking-wide font-light">
+    {copyright}
+  </span>
+
+  <div class="flex gap-6">
+    {socials.map(({ href, label }) => (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-[10px] tracking-[0.14em] uppercase text-[#6E6E6E] font-light
+               hover:text-[#B59A7A] transition-colors"
+      >
+        {label}
+      </a>
+    ))}
+  </div>
+</footer>

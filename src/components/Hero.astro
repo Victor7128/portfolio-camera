@@ -1,0 +1,64 @@
+---
+import HeroNav from "./HeroNav.astro";
+
+interface Props {
+  imageSrc?: string;
+  tag?:      string;
+  title?:    string;
+  emphasis?: string;
+}
+
+const {
+  imageSrc = "/images/1.webp",
+  tag      = "Wedding & Couples Photography",
+  title    = "Moments that",
+  emphasis = "forever",
+} = Astro.props;
+---
+
+<section id="hero" class="relative w-full h-svh min-h-140 overflow-hidden">
+  <img
+    id="hero-img"
+    src={imageSrc}
+    alt="Hero photography"
+    class="absolute inset-0 w-full h-full object-cover scale-110 will-change-transform"
+    style="transform-origin: center center;"
+  />
+
+  <div class="absolute inset-0 bg-linear-to-b from-black/10 via-transparent to-black/50"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-40 bg-linear-to-t from-black/30 to-transparent pointer-events-none"></div>
+
+  <HeroNav />
+
+  <div class="absolute bottom-10 left-6 md:bottom-13 md:left-12">
+    <p class="text-[10px] tracking-[0.22em] uppercase text-white/50 font-light mb-3">
+      {tag}
+    </p>
+    <h1 class="font-serif text-[clamp(32px,7vw,64px)] font-light leading-[1.1] text-white">
+      {title}<br />feel like <em class="italic text-[#FFD9B0]">{emphasis}</em>
+    </h1>
+  </div>
+</section>
+
+<script>
+  const heroImg = document.getElementById("hero-img") as HTMLImageElement | null;
+  if (!heroImg) throw new Error("Hero image not found");
+  const PARALLAX_SPEED = 0.30;
+
+  function updateParallax() {
+    const scrollY = window.scrollY;
+    const offset  = scrollY * PARALLAX_SPEED;
+    heroImg!.style.transform = `scale(1.10) translateY(${offset}px)`;
+  }
+
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateParallax();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+</script>

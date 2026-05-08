@@ -1,0 +1,48 @@
+---
+const links = [
+  { href: "/work",     label: "Work"     },
+  { href: "/couples",  label: "Couples"  },
+  { href: "/weddings", label: "Weddings" },
+  { href: "/about",    label: "About"    },
+];
+---
+
+<nav
+  id="stickyNav"
+  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-13
+         border-b border-[#B59A7A]/20 bg-[#F8F6F2]/92 backdrop-blur-md
+         -translate-y-full opacity-0 transition-[transform,opacity] duration-500
+         ease-[cubic-bezier(0.16,1,0.3,1)]"
+>
+  <div class="font-serif text-base font-light tracking-wider text-[#1F1F1F]">
+    Earthbound <em class="italic text-[#B59A7A]">Visuals</em>
+  </div>
+
+  <ul class="hidden md:flex gap-9 list-none">
+    {links.map(({ href, label }) => (
+      <li>
+        <a href={href} class="text-[10px] tracking-[0.18em] uppercase text-[#6E6E6E] font-light hover:text-[#1F1F1F] transition-colors">
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <a href="/contact" class="hidden md:inline-block text-[10px] tracking-[0.16em] uppercase text-[#B59A7A] font-normal border-b border-[#B59A7A] pb-px hover:text-[#A38B73] hover:border-[#A38B73] transition-colors">
+    Contact
+  </a>
+
+  <button id="menuBtn" aria-label="Abrir menú" aria-expanded="false"
+    class="md:hidden flex flex-col justify-center gap-1.25 w-8 h-8 bg-transparent border-none cursor-pointer p-0">
+    <span class="hbl block h-px w-6 bg-[#1F1F1F] transition-all duration-300 origin-center"></span>
+    <span class="hbl block h-px w-6 bg-[#1F1F1F] transition-all duration-300 origin-center"></span>
+    <span class="hbl block h-px w-4 bg-[#1F1F1F] transition-all duration-300 origin-center"></span>
+  </button>
+</nav>
+
+<style>
+  #stickyNav.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+</style>

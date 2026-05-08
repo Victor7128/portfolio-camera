@@ -1,0 +1,70 @@
+---
+interface Service {
+  num:   string;
+  title: string;
+  href:  string;
+  body:  string;
+}
+
+interface Props {
+  eyebrow?:  string;
+  heading?:  string;
+  emphasis?: string;
+  services?: Service[];
+}
+
+const {
+  eyebrow  = "What I offer",
+  heading  = "Sessions built around ",
+  emphasis = "you",
+  services = [
+    {
+      num:   "01",
+      title: "Weddings",
+      href:  "/weddings",
+      body:  "Full-day coverage from getting ready to the last dance. Documentary style, never staged.",
+    },
+    {
+      num:   "02",
+      title: "Couples",
+      href:  "/couples",
+      body:  "Engagement sessions, anniversaries, or just because. A walk, a sunset, and real moments.",
+    },
+    {
+      num:   "03",
+      title: "Portraits",
+      href:  "/portraits",
+      body:  "Personal branding and editorial portraits. Clean, natural, honest.",
+    },
+  ],
+} = Astro.props;
+---
+
+<section class="max-w-275 mx-auto px-6 md:px-0 pb-16 md:pb-24">
+  <p class="text-[10px] tracking-[0.22em] uppercase text-[#B59A7A] font-normal mb-4">
+    {eyebrow}
+  </p>
+  <h2 class="font-serif text-[clamp(26px,3.5vw,44px)] font-light leading-[1.15] text-[#1F1F1F] mb-10 md:mb-12">
+    {heading}<em class="italic text-[#B59A7A]">{emphasis}</em>
+  </h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+    {services.map(({ num, title, href, body }) => (
+      <div class="border-t border-[#B59A7A]/30 pt-7">
+        <span class="block text-[10px] tracking-[0.18em] text-[#B59A7A] font-light mb-4">
+          {num}
+        </span>
+        <h3 class="font-serif text-[22px] font-light text-[#1F1F1F] mb-3">{title}</h3>
+        <p class="text-[13px] leading-[1.85] text-[#6E6E6E] font-light mb-6">{body}</p>
+        <a
+          href={href}
+          class="text-[10px] tracking-[0.16em] uppercase text-[#1F1F1F] font-normal
+                 border-b border-[#1F1F1F] pb-0.5 inline-block w-fit
+                 hover:text-[#B59A7A] hover:border-[#B59A7A] transition-colors"
+        >
+          Learn more
+        </a>
+      </div>
+    ))}
+  </div>
+</section>

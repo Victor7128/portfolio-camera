@@ -1,0 +1,58 @@
+---
+interface Props {
+  imageSrc?:   string;
+  imageLabel?: string;
+  eyebrow?:    string;
+  heading?:    string;
+  emphasis?:   string;
+  body?:       string;
+  linkHref?:   string;
+  linkLabel?:  string;
+}
+
+const {
+  imageSrc   = "/images/3.webp",
+  imageLabel = "— Portrait session, 2024",
+  eyebrow    = "About the work",
+  heading    = "Light, ",
+  emphasis   = "love",
+  body       = "Wedding and couples photography rooted in stillness. I work with natural light and genuine connection — no forced poses, just the real thing unfolding.",
+  linkHref   = "/about",
+  linkLabel  = "View portfolio",
+} = Astro.props;
+---
+
+<section class="grid grid-cols-1 md:grid-cols-[3fr_2fr] md:max-h-210 max-w-275 mx-auto py-16 md:py-24">
+
+  <div class="relative overflow-hidden h-72 md:h-auto">
+    <img
+      src={imageSrc}
+      alt="About photograph"
+      class="w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-linear-to-b md:bg-linear-to-r from-transparent via-transparent to-[#F8F6F2]"></div>
+    <span class="absolute bottom-5 left-5 md:bottom-7 md:left-7 text-[10px] tracking-[0.18em] uppercase text-white/45 font-light z-10">
+      {imageLabel}
+    </span>
+  </div>
+
+  <div class="flex flex-col justify-center px-6 py-10 md:px-14 md:py-20">
+    <p class="text-[10px] tracking-[0.22em] uppercase text-[#B59A7A] font-normal mb-4">
+      {eyebrow}
+    </p>
+    <h2 class="font-serif text-[clamp(26px,3.5vw,44px)] font-light leading-[1.15] text-[#1F1F1F] mb-6">
+      {heading}<em class="italic text-[#B59A7A]">{emphasis}</em>,<br />and quiet moments
+    </h2>
+    <p class="text-[13px] leading-[1.9] text-[#6E6E6E] font-light mb-8">
+      {body}
+    </p>
+    <a
+      href={linkHref}
+      class="text-[10px] tracking-[0.16em] uppercase text-[#1F1F1F] font-normal
+             border-b border-[#1F1F1F] pb-0.5 inline-block w-fit
+             hover:text-[#B59A7A] hover:border-[#B59A7A] transition-colors"
+    >
+      {linkLabel}
+    </a>
+  </div>
+</section>
